@@ -57,9 +57,10 @@ Resources:
             Statement:
             - Effect: Allow
               Action:
+              - 's3:PutObject'
               - 's3:GetObject'
               Resource:
-                - !Sub "arn:aws:s3:::any-bucket-name/*"
+                - !GetAtt S3Bucket.Arn
 
   WebAppInstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -67,6 +68,23 @@ Resources:
       Path: '/'
       Roles:
       - !Ref WebAppInstanceRole
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "udacity-s3-web-static-content-bucket"
+      AccessControl: Private
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
 
   WebAppLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
@@ -78,7 +96,7 @@ Resources:
             #!/bin/bash
             sudo apt-get update -y
             sudo apt-get install nginx -y
-            sudo sed -i -e 's/Welcome to nginx!/it works! Udagram, Udacity/g' /var/www/html/index.nginx-debian.html
+            curl ${S3Bucket.WebsiteURL}/index.html -o /var/www/html/index.nginx-debian.html
             sudo service nginx start
         ImageId: ami-0adddf71cdf031e97 # ap-northeast-1 22.04-20240319
         SecurityGroupIds:
@@ -153,53 +171,6 @@ Resources:
       VpcId: 
         Fn::ImportValue:
           Fn::Sub: "${EnvironmentName}-VPCID"
-
-  S3Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: "udacity-s3-web-static-content-bucket"
-      AccessControl: Private
-      VersioningConfiguration:
-        Status: Enabled
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        IgnorePublicAcls: true
-        BlockPublicPolicy: true
-        RestrictPublicBuckets: true
-  S3BucketAccessRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Sub ${EnvironmentName}-Instance-IAM-Role
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-        - Effect: 'Allow'
-          Principal:
-            Service:
-            - 'ec2.amazonaws.com'
-          Action:
-          - 'sts:AssumeRole'
-      Policies:
-        - PolicyName: s3
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-            - Effect: Allow
-              Action:
-              - 's3:PutObject'
-              - 's3:GetObject'
-              Resource:
-                - !GetAtt S3Bucket.Arn
-  InstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: '/'
-      Roles:
-      - !Ref S3BucketAccessRole
 
 Outputs: 
   LoadBalancerURL: 

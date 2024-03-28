@@ -25,4 +25,4 @@ Create with `--no-execute-changeset`.
 ```
 
 ## Working example
-http://test-a-webap-gutigklbkfsn-891735602.ap-northeast-1.elb.amazonaws.com/
+http://test-a-webap-imywunse6l4a-1085512979.ap-northeast-1.elb.amazonaws.com/
