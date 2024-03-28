@@ -1,5 +1,5 @@
 # CD12352 - Infrastructure as Code Project Solution
-# [YOUR NAME HERE]
+# Nguyen Chi Bach
 
 ## Spin up instructions
 TODO
