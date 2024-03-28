@@ -1,7 +1,7 @@
 Description: CD12352 - Infrastructure as Code Project - Network
 
 Parameters:
-  ProjectName:
+  EnvironmentName:
     Type: String
     Description: Used to tag resources in the same project.
   VpcCidr:
@@ -29,14 +29,14 @@ Resources:
       EnableDnsHostnames: true
       Tags: 
       - Key: Name
-        Value: !Ref ProjectName
+        Value: !Ref EnvironmentName
 
   InternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties: 
       Tags: 
       - Key: Name
-        Value: !Ref ProjectName
+        Value: !Ref EnvironmentName
 
   AttachGateway:
     Type: 'AWS::EC2::VPCGatewayAttachment'
@@ -53,7 +53,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags: 
       - Key: Name
-        Value: !Sub ${ProjectName}-public-1
+        Value: !Sub ${EnvironmentName}-public-1
 
 
   PublicSubnet2:
@@ -65,7 +65,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags: 
       - Key: Name
-        Value: !Sub ${ProjectName}-public-2
+        Value: !Sub ${EnvironmentName}-public-2
 
   PrivateSubnet1:
     Type: 'AWS::EC2::Subnet'
@@ -75,7 +75,7 @@ Resources:
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
       Tags: 
       - Key: Name
-        Value: !Sub ${ProjectName}-private-1
+        Value: !Sub ${EnvironmentName}-private-1
 
   PrivateSubnet2:
     Type: 'AWS::EC2::Subnet'
@@ -85,7 +85,7 @@ Resources:
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
       Tags: 
       - Key: Name
-        Value: !Sub ${ProjectName}-private-2
+        Value: !Sub ${EnvironmentName}-private-2
 
   NatGateway1EIP:
     Type: AWS::EC2::EIP
@@ -117,7 +117,7 @@ Resources:
       VpcId: !Ref VPC
       Tags: 
         - Key: Name 
-          Value: !Sub ${ProjectName} Public Routes
+          Value: !Sub ${EnvironmentName} Public Routes
 
   DefaultPublicRoute: 
     Type: AWS::EC2::Route
@@ -145,7 +145,7 @@ Resources:
       VpcId: !Ref VPC
       Tags: 
         - Key: Name 
-          Value: !Sub ${ProjectName} Private Routes (AZ1)
+          Value: !Sub ${EnvironmentName} Private Routes (AZ1)
 
   DefaultPrivateRoute1:
     Type: AWS::EC2::Route
@@ -166,7 +166,7 @@ Resources:
       VpcId: !Ref VPC
       Tags: 
         - Key: Name 
-          Value: !Sub ${ProjectName} Private Routes (AZ2)
+          Value: !Sub ${EnvironmentName} Private Routes (AZ2)
 
   DefaultPrivateRoute2:
     Type: AWS::EC2::Route
