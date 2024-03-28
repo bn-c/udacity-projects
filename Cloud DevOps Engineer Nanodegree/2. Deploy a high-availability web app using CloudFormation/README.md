@@ -1,11 +1,18 @@
 # CD12352 - Infrastructure as Code Project Solution
 # Nguyen Chi Bach
 
+## Prerequisites
+- AWS CLI
+- PowerShell
+
 ## Spin up instructions
-TODO
+Create/Update the stacks
+`.\infra.ps1 deploy <stack-name>`
 
 ## Tear down instructions
-TODO
+Removing the stacks
+`.\infra.ps1 tear-down <stack-name>`
 
-## Other considerations
-TODO (optional)
+## Dry-Run
+Create with `--no-execute-changeset`
+`.\infra.ps1 dry-run <stack-name>`

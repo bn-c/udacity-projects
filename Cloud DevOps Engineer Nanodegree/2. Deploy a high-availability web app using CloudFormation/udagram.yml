@@ -78,6 +78,7 @@ Resources:
             #!/bin/bash
             sudo apt-get update -y
             sudo apt-get install nginx -y
+            sudo sed -i -e 's/Welcome to nginx!/it works! Udagram, Udacity/g' /var/www/html/index.nginx-debian.html
             sudo service nginx start
         ImageId: ami-0adddf71cdf031e97 # ap-northeast-1 22.04-20240319
         SecurityGroupIds:
