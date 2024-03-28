@@ -23,3 +23,6 @@ Create with `--no-execute-changeset`.
 ```powershell
 .\infra.ps1 dry-run <stack-name>
 ```
+
+## Working example
+http://test-a-webap-gutigklbkfsn-891735602.ap-northeast-1.elb.amazonaws.com/
