@@ -6,13 +6,20 @@
 - PowerShell
 
 ## Spin up instructions
-Create/Update the stacks
-`.\infra.ps1 deploy <stack-name>`
+Create/Update the stacks.
+```powershell
+.\infra.ps1 deploy <stack-name>
+```
 
 ## Tear down instructions
-Removing the stacks
-`.\infra.ps1 tear-down <stack-name>`
+Removing the stacks.
+```powershell
+.\infra.ps1 tear-down <stack-name>
+```
 
 ## Dry-Run
-Create with `--no-execute-changeset`
-`.\infra.ps1 dry-run <stack-name>`
+Create with `--no-execute-changeset`.
+
+```powershell
+.\infra.ps1 dry-run <stack-name>
+```
